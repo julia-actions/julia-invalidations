@@ -1,5 +1,5 @@
 # julia-invalidations
-Uses SnoopCompile.@snoopr to evaluate number of invalidations caused by `using Package` or a provided script
+Uses [`SnoopCompile.@snoopr`](https://timholy.github.io/SnoopCompile.jl/stable/snoopr/) to evaluate number of invalidations caused by `using Package` or a provided script
 
 
 ## Usage
@@ -23,14 +23,14 @@ jobs:
         version: 'nightly'
     - uses: actions/checkout@v1.0.0
     - uses: julia-actions/julia-buildpkg@latest
-    - uses: ianshmean/julia-invalidations@master
+    - uses: julia-actions/julia-invalidations@master
       id: invs_pr
     
     - uses: actions/checkout@v1.0.0
       with:
         ref: 'master'
     - uses: julia-actions/julia-buildpkg@latest
-    - uses: ianshmean/julia-invalidations@master
+    - uses: julia-actions/julia-invalidations@master
       id: invs_master
     
     - name: Report invalidation counts
@@ -44,4 +44,13 @@ jobs:
             exit 1
         fi
       shell: bash
+```
+
+By default, the action will evaluate `using Package` where `Package` is the name of the julia repo that the action runs on.
+A custom script can be provided by passing `test_script`:
+
+i.e.
+```
+with:
+  test_script: 'using Package; Package.foo(1)`
 ```
