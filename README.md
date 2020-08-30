@@ -12,7 +12,7 @@ For instance, this will evaluate number of invalidations that branch/PR has vs. 
 
 ```
 name: Invalidations
-on: [push]
+on: [push, pull_request]
 
 jobs:
   evaluate:
@@ -21,16 +21,16 @@ jobs:
     - uses: julia-actions/setup-julia@v1
       with:
         version: 'nightly'
-    - uses: actions/checkout@v1.0.0
+    - uses: actions/checkout@v2
     - uses: julia-actions/julia-buildpkg@latest
-    - uses: julia-actions/julia-invalidations@master
+    - uses: julia-actions/julia-invalidations@v1
       id: invs_pr
     
-    - uses: actions/checkout@v1.0.0
+    - uses: actions/checkout@v2
       with:
         ref: 'master'
     - uses: julia-actions/julia-buildpkg@latest
-    - uses: julia-actions/julia-invalidations@master
+    - uses: julia-actions/julia-invalidations@v1
       id: invs_master
     
     - name: Report invalidation counts
