@@ -54,5 +54,5 @@ i.e.
 - uses: julia-actions/julia-invalidations@master
   id: invs_pr
   with:
-    test_script: 'using Package; Package.foo(1)`
+    test_script: 'using Package; Package.foo(1)'
 ```
