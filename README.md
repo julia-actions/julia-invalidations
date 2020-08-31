@@ -6,7 +6,7 @@ Uses [`SnoopCompile.@snoopr`](https://timholy.github.io/SnoopCompile.jl/stable/s
 
 This is a composite github action, that can be inserted into a github action on the target repo to evaluate number of invalidations
 
-For instance, this will evaluate number of invalidations that branch/PR has vs. master, and fail if the number increases. Both runs happen on the same julia nightly, so that the comparison in # invalidations is less sensitive to changes in base.
+For instance, the example below will evaluate number of invalidations that branch/PR has vs. master, and fail if the number increases. Both runs happen on the same julia nightly, so that the comparison in # invalidations is less sensitive to changes in base.
 
 - Create an action file in the desired repo. i.e. `.github/workflows/InvalidationFlagger.yml`
 
