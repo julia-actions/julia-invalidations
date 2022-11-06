@@ -51,6 +51,6 @@ runs:
         # Set outputs
         open(ENV["GITHUB_OUTPUT"], "a") do io
           println(io, "total=$(inv_total)")
-          println(io, "deps=$(inv_deps)")'
+          println(io, "deps=$(inv_deps)")
         end
       shell: julia --color=yes --project=. {0}    
