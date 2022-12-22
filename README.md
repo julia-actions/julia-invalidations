@@ -12,7 +12,7 @@ Both runs happen on the same julia version, so that the comparison in # invalida
 
 - Create an action file in the desired repo. i.e. `.github/workflows/Invalidations.yml`
 
-```
+```yaml
 name: Invalidations
 
 on:
@@ -59,7 +59,7 @@ By default, the action will evaluate `using Package` where `Package` is the name
 A custom script can be provided by passing `test_script`. Note that both runs should be given the same script
 
 i.e.
-```
+```yaml
 - uses: julia-actions/julia-invalidations@v1
   id: invs_pr
   with:
