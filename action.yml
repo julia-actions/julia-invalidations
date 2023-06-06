@@ -6,6 +6,12 @@ inputs:
     description: 'Script to test for invalidations. Defaults to `using Package`'
     required: false
     default: ''
+    type: string
+  max_invalidations:
+    description: 'Maximum number of invalidations to report. Defaults to `0` (no limit)'
+    required: false
+    default: '0'
+    type: number
 
 outputs:
   total: 
@@ -53,7 +59,7 @@ runs:
         SnoopCompile.report_invalidations(;
              invalidations,
              process_filename = x -> last(split(x, ".julia/packages/")),
-             n_rows = 0,  # no-limit (show all invalidations)
+             n_rows = ${{ inputs.max_invalidations }},
         )
 
         # Set outputs
