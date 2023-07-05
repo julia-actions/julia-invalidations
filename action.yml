@@ -30,14 +30,21 @@ runs:
             TESTSCRIPT=${{ inputs.test_script }}
           fi
           echo "testscript=$TESTSCRIPT" >> $GITHUB_OUTPUT
+          if [[ '${{ inputs.setup_script }}' == '' ]]; then
+            SETUPSCRIPT="using Pkg;Pkg.develop(\"${PACKAGENAME}\")"
+          else
+            SETUPSCRIPT=${{ inputs.setup_script }}
+          fi
+          echo "setupscript=$SETUPSCRIPT" >> $GITHUB_OUTPUT
       shell: bash
       
     - name: Install SnoopCompile tools
-      run: julia --project -e 'using Pkg; Pkg.add(["SnoopCompileCore", "SnoopCompile", "PrettyTables"])'
+      run: julia 'using Pkg; Pkg.add(["SnoopCompileCore", "SnoopCompile", "PrettyTables"])'
       shell: bash
     - name: Load package on branch
       id: invs
       run: |
+        ${{ steps.info.outputs.setupscript }}
         using SnoopCompileCore
         invalidations = @snoopr begin ${{ steps.info.outputs.testscript }} end
         
@@ -61,4 +68,4 @@ runs:
           println(io, "total=$(inv_total)")
           println(io, "deps=$(inv_deps)")
         end
-      shell: julia --color=yes --project=. {0}    
+      shell: julia --color=yes {0}    
