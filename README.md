@@ -56,7 +56,7 @@ jobs:
 ```
 
 By default, the action will evaluate `using Package` where `Package` is the name of the julia repo that the action runs on.
-A custom script can be provided by passing `test_script`. Note that both runs should be given the same script
+A custom script can be provided by passing `test_script`. If it is necessary to setup alter the environment the code is run in, you can pass a `setup_script` with the necessary Pkg operations. Note that both runs should be given the same script
 
 i.e.
 ```yaml
@@ -64,4 +64,5 @@ i.e.
   id: invs_pr
   with:
     test_script: 'using Package; Package.foo(1)'
+    setup_script: 'using Pkg; Pkg.develop(["Foo", "Bar"])'
 ```
