@@ -31,7 +31,7 @@ runs:
           fi
           echo "testscript=$TESTSCRIPT" >> $GITHUB_OUTPUT
       shell: bash
-      
+
     - name: Install SnoopCompile tools
       run: julia --project -e 'using Pkg; Pkg.add(["SnoopCompileCore", "SnoopCompile", "PrettyTables"])'
       shell: bash
@@ -39,13 +39,13 @@ runs:
       id: invs
       run: |
         using SnoopCompileCore
-        invalidations = @snoopr begin ${{ steps.info.outputs.testscript }} end
-        
+        invalidations = @snoop_invalidations begin ${{ steps.info.outputs.testscript }} end
+
         using SnoopCompile
         inv_owned = length(filtermod(${{ steps.info.outputs.packagename }}, invalidation_trees(invalidations)))
         inv_total = length(uinvalidated(invalidations))
         inv_deps = inv_total - inv_owned
-        
+
         @show inv_total, inv_deps
 
         # Report invalidations summary:
@@ -61,4 +61,4 @@ runs:
           println(io, "total=$(inv_total)")
           println(io, "deps=$(inv_deps)")
         end
-      shell: julia --color=yes --project=. {0}    
+      shell: julia --color=yes --project=. {0}
