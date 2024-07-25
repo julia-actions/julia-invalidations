@@ -62,7 +62,7 @@ runs:
         using SnoopCompileCore: @snoopr
         invalidations = @snoopr begin ${{ steps.info.outputs.testscript }} end
         
-        using SnoopCompile: SnoopCompile, invalidation_trees, uinvalidated
+        using SnoopCompile: SnoopCompile, filtermod, invalidation_trees, uinvalidated
         inv_owned = length(filtermod(${{ steps.info.outputs.packagename }}, invalidation_trees(invalidations)))
         inv_total = length(uinvalidated(invalidations))
         inv_deps = inv_total - inv_owned
