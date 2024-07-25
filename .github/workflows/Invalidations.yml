@@ -34,6 +34,7 @@ jobs:
       id: invs_pro
       with:
         test_script: 'import Example'
+        package_name: 'Example'
 
     - uses: actions/checkout@v3
       with:
@@ -44,6 +45,7 @@ jobs:
       id: invs_default
       with:
         test_script: 'import Example'
+        package_name: 'Example'
 
     - name: Report invalidation counts
       run: |
