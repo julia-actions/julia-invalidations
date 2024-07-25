@@ -3,7 +3,7 @@ description: 'Evaluate number of invalidations'
 
 inputs:
   test_script:
-    description: 'Script to test for invalidations. Defaults to `using Package`'
+    description: 'Script to test for invalidations. Defaults to `import Package`'
     required: false
     default: ''
   package_name:
@@ -39,7 +39,7 @@ runs:
           fi
           echo "packagename=$PACKAGENAME" >> $GITHUB_OUTPUT
           if [[ '${{ inputs.test_script }}' == '' ]]; then
-            TESTSCRIPT="using ${PACKAGENAME}"
+            TESTSCRIPT="import ${PACKAGENAME}"
           else
             TESTSCRIPT="${{ inputs.test_script }}"
           fi
@@ -59,10 +59,10 @@ runs:
     - name: Load package on branch
       id: invs
       run: |
-        using SnoopCompileCore
+        using SnoopCompileCore: @snoopr
         invalidations = @snoopr begin ${{ steps.info.outputs.testscript }} end
         
-        using SnoopCompile
+        using SnoopCompile: SnoopCompile, filtermod, invalidation_trees, uinvalidated
         inv_owned = length(filtermod(${{ steps.info.outputs.packagename }}, invalidation_trees(invalidations)))
         inv_total = length(uinvalidated(invalidations))
         inv_deps = inv_total - inv_owned
@@ -70,7 +70,7 @@ runs:
         @show inv_total, inv_deps
 
         # Report invalidations summary:
-        using PrettyTables  # needed for `report_invalidations` to be defined
+        import PrettyTables  # needed for `report_invalidations` to be defined
         SnoopCompile.report_invalidations(;
              invalidations,
              process_filename = x -> last(split(x, ".julia/packages/")),
