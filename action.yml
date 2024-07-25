@@ -27,7 +27,7 @@ runs:
           if [[ '${{ inputs.test_script }}' == '' ]]; then
             TESTSCRIPT="using ${PACKAGENAME}"
           else
-            TESTSCRIPT=${{ inputs.test_script }}
+            TESTSCRIPT="${{ inputs.test_script }}"
           fi
           echo "testscript=$TESTSCRIPT" >> $GITHUB_OUTPUT
       shell: bash
