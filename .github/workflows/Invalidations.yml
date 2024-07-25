@@ -28,6 +28,8 @@ jobs:
     # - uses: julia-actions/julia-invalidations@v1
     - uses: ./
       id: invs_pr
+      with:
+        test_script: 'import Example'
 
     - uses: actions/checkout@v3
       with:
@@ -36,6 +38,8 @@ jobs:
     # - uses: julia-actions/julia-invalidations@v1
     - uses: ./
       id: invs_default
+      with:
+        test_script: 'import Example'
 
     - name: Report invalidation counts
       run: |
