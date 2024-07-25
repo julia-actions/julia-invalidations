@@ -41,7 +41,7 @@ runs:
             Pkg.PackageSpec(name = "PrettyTables"),
         ]
         Pkg.add(pkgs)
-      shell: julia --project
+      shell: julia --project {0}
     - name: Load package on branch
       id: invs
       run: |
