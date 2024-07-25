@@ -3,8 +3,8 @@ name: Example
 on:
   pull_request:
 
-defaults:
-  run:
+# defaults:
+  # run:
     # working-directory: ./ci/
 
 concurrency:
