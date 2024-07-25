@@ -29,7 +29,6 @@ runs:
           if [[ '${{ inputs.package_name }}' == '' ]]; then
             PACKAGENAME=${REPONAME%.jl}
           else
-            PACKAGENAME=""
             PACKAGENAME="${{ inputs.package_name }}"
           fi
           echo "packagename=$PACKAGENAME" >> $GITHUB_OUTPUT
