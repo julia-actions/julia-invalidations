@@ -6,6 +6,10 @@ inputs:
     description: 'Script to test for invalidations. Defaults to `using Package`'
     required: false
     default: ''
+  package_name:
+    description: 'Name of the package. By default, tries to auto-detect from the repo name.'
+    required: false
+    default: ''
     type: string
   max_invalidations:
     description: 'Maximum number of invalidations to report. Defaults to `0` (no limit)'
@@ -28,7 +32,11 @@ runs:
       id: info
       run: |
           REPONAME="${{ github.event.repository.name }}"
-          PACKAGENAME=${REPONAME%.jl}
+          if [[ '${{ inputs.package_name }}' == '' ]]; then
+            PACKAGENAME=${REPONAME%.jl}
+          else
+            PACKAGENAME="${{ inputs.package_name }}"
+          fi
           echo "packagename=$PACKAGENAME" >> $GITHUB_OUTPUT
           if [[ '${{ inputs.test_script }}' == '' ]]; then
             TESTSCRIPT="using ${PACKAGENAME}"
