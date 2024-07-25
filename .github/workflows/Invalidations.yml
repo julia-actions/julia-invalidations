@@ -24,10 +24,14 @@ jobs:
       with:
         version: '1'
     - uses: actions/checkout@v3
-    - uses: julia-actions/julia-buildpkg@v1
+    - run: |
+        import Pkg
+        p = Pkg.PackageSpec(name = "Example", version = "0.5", uuid = "7876af07-990d-54b4-ab0e-23690620f79a")
+        Pkg.add(p)
+      shell: julia {0}
     # - uses: julia-actions/julia-invalidations@v1
     - uses: ./
-      id: invs_pr
+      id: invs_pro
       with:
         test_script: 'import Example'
 
