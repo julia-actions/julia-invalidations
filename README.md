@@ -1,6 +1,9 @@
 # julia-invalidations
-Uses [`SnoopCompile.@snoopr`](https://timholy.github.io/SnoopCompile.jl/stable/snoopr/)
-to evaluate number of invalidations caused by `using Package` or a provided script
+Uses [`SnoopCompile.@snoopr`](https://timholy.github.io/SnoopCompile.jl/v2/snoopr/)
+to evaluate number of invalidations caused by `using Package` or a provided script.
+
+Currently this action uses SnoopCompile v2.
+In a future release, we will upgrade to SnoopCompile v3.
 
 
 ## Usage
