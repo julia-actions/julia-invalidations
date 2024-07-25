@@ -33,8 +33,15 @@ runs:
       shell: bash
       
     - name: Install SnoopCompile tools
-      run: julia --project -e 'using Pkg; Pkg.add(["SnoopCompileCore", "SnoopCompile", "PrettyTables"])'
-      shell: bash
+      run: |
+        import Pkg;
+        pkgs = [
+            Pkg.PackageSpec(name = "SnoopCompile", version = "2"),
+            Pkg.PackageSpec(name = "SnoopCompileCore"),
+            Pkg.PackageSpec(name = "PrettyTables"),
+        ]
+        Pkg.add(pkgs)
+      shell: julia --project
     - name: Load package on branch
       id: invs
       run: |
