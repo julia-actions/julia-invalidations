@@ -78,8 +78,9 @@ runs:
         )
 
         # Set outputs
+        using Printf
         open(ENV["GITHUB_OUTPUT"], "a") do io
-          println(io, "total=$(inv_total)")
-          println(io, "deps=$(inv_deps)")
+          println(io, @sprintf("total=%09d", inv_total))
+          println(io, @sprintf("deps=%09d", inv_deps))
         end
       shell: julia --color=yes --project=. {0}
