@@ -2,6 +2,10 @@
 Uses [`SnoopCompile.@snoop_invalidations`](https://timholy.github.io/SnoopCompile.jl/dev/tutorials/invalidations/)
 to evaluate number of invalidations caused by `using Package` or a provided script.
 
+**WARNING**: *this action may place blame in the wrong place*. In most cases invalidation is the "fault" of the *victim* of invalidation, not the *perpetrator*: adding a new method to an external function only triggers invalidation if the code being invalidated is not inferrable. Concretely, suppose PkgA depends just on Julia itself, and PkgB depends on PkgA. PkgA has some precompiled code that is not inferrable, and PkgB adds a new method to a function defined in Base that invalidates this precompiled code. If PkgB is using `julia-invalidations`, it "takes the heat" for lack of inferrability in PkgA's code. But most often, the fix is in PkgA.
+
+To check whether your package's code is *resistant* to invalidation, you can test for inferability with [JET](https://aviatesk.github.io/JET.jl/dev/optanalysis/#optanalysis-test-integration).
+
 ## Usage
 
 This is a composite github action, that can be inserted into a github action on the target repo to evaluate number of invalidations
