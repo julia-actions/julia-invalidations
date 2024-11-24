@@ -18,16 +18,16 @@ inputs:
     type: number
 
 outputs:
-  total: 
+  total:
     description: "Total number of invalidations"
     value: ${{ steps.invs.outputs.total }}
-  deps: 
+  deps:
     description: "Number of invalidations caused by deps"
     value: ${{ steps.invs.outputs.deps }}
 
 runs:
   using: "composite"
-  steps: 
+  steps:
     - name: Get package name
       id: info
       run: |
@@ -45,12 +45,12 @@ runs:
           fi
           echo "testscript=$TESTSCRIPT" >> $GITHUB_OUTPUT
       shell: bash
-      
+
     - name: Install SnoopCompile tools
       run: |
         import Pkg;
         pkgs = [
-            Pkg.PackageSpec(name = "SnoopCompile", version = "2", uuid = "aa65fe97-06da-5843-b5b1-d5d13cad87d2"),
+            Pkg.PackageSpec(name = "SnoopCompile", version = "3", uuid = "aa65fe97-06da-5843-b5b1-d5d13cad87d2"),
             Pkg.PackageSpec(name = "SnoopCompileCore", uuid = "e2b509da-e806-4183-be48-004708413034"),
             Pkg.PackageSpec(name = "PrettyTables", uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"),
         ]
@@ -59,14 +59,14 @@ runs:
     - name: Load package on branch
       id: invs
       run: |
-        using SnoopCompileCore: @snoopr
-        invalidations = @snoopr begin ${{ steps.info.outputs.testscript }} end
-        
+        using SnoopCompileCore: @snoop_invalidations
+        invalidations = @snoop_invalidations begin ${{ steps.info.outputs.testscript }} end
+
         using SnoopCompile: SnoopCompile, filtermod, invalidation_trees, uinvalidated
         inv_owned = length(filtermod(${{ steps.info.outputs.packagename }}, invalidation_trees(invalidations)))
         inv_total = length(uinvalidated(invalidations))
         inv_deps = inv_total - inv_owned
-        
+
         @show inv_total, inv_deps
 
         # Report invalidations summary:
@@ -82,4 +82,4 @@ runs:
           println(io, "total=$(inv_total)")
           println(io, "deps=$(inv_deps)")
         end
-      shell: julia --color=yes --project=. {0}    
+      shell: julia --color=yes --project=. {0}
