@@ -31,7 +31,7 @@ jobs:
       shell: julia {0}
     # - uses: julia-actions/julia-invalidations@v1
     - uses: ./
-      id: invs_pro
+      id: invs_pr
       with:
         test_script: 'import Example'
         package_name: 'Example'
