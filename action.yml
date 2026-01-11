@@ -2,6 +2,9 @@ name: Invalidations
 description: 'Evaluate number of invalidations'
 
 inputs:
+  project:
+    description: 'Value passed to the --project flag. The default value is the repository root: "@."'
+    default: '@.'
   test_script:
     description: 'Script to test for invalidations. Defaults to `import Package`'
     required: false
@@ -55,7 +58,7 @@ runs:
             Pkg.PackageSpec(name = "PrettyTables", uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"),
         ]
         Pkg.add(pkgs)
-      shell: julia --project {0}
+      shell: julia --project=${{ inputs.project }} {0}
     - name: Load package on branch
       id: invs
       run: |
@@ -83,4 +86,4 @@ runs:
           println(io, @sprintf("total=%09d", inv_total))
           println(io, @sprintf("deps=%09d", inv_deps))
         end
-      shell: julia --color=yes --project=. {0}
+      shell: julia --color=yes --project=${{ inputs.project }} {0}
